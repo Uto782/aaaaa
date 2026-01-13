@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>応援バット</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app" class="app">
+    <div id="toast" class="toast" aria-live="polite"></div>
+
+    <section id="view-connect" class="view view-active">
+      <header class="header">
+        <div class="title">応援バットをつなぐ</div>
+        <div class="subtitle" id="support-hint"></div>
+      </header>
+
+      <div class="card">
+        <div class="row">
+          <div class="label">状態</div>
+          <div class="value" id="conn-state">未接続</div>
+        </div>
+        <div class="row">
+          <div class="label">デバイス</div>
+          <div class="value" id="device-name">なし</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="btn-search" class="btn btn-primary">さがす</button>
+        <button id="btn-connect" class="btn" disabled>つなぐ</button>
+        <button id="btn-start" class="btn btn-accent" disabled>応援をはじめる</button>
+      </div>
+
+      <div class="card">
+        <div class="row">
+          <div class="label">かんど</div>
+          <div class="value"><input id="sens-slider" type="range" min="0" max="100" value="50" aria-label="かんど"></div>
+        </div>
+        <div class="row hint">
+          <div>よわめ</div>
+          <div>ふつう</div>
+          <div>つよめ</div>
+        </div>
+
+        <div class="row">
+          <div class="label">しんどう</div>
+          <div class="value"><input id="vib-slider" type="range" min="0" max="100" value="60" aria-label="しんどう"></div>
+        </div>
+        <div class="row hint">
+          <div>よわめ</div>
+          <div>ふつう</div>
+          <div>つよめ</div>
+        </div>
+      </div>
+
+      <div class="small">
+        Bluefyで開く前提のページです。Bluetoothが使えない場合はBluefyで開いてください。
+      </div>
+    </section>
+
+    <section id="view-cheer" class="view">
+      <div class="cheer-top">
+        <div class="cheer-mini">きょうの回数</div>
+        <div id="total-hits" class="cheer-count">0回</div>
+        <div class="cheer-mini">たたいた回数</div>
+      </div>
+
+      <div class="flame-wrap" aria-label="情熱の炎">
+        <div id="flame" class="flame level-0">
+          <div class="flame-core"></div>
+          <div class="flame-shape"></div>
+          <div class="flame-glow"></div>
+        </div>
+        <div id="flame-text" class="flame-text">ふつう</div>
+      </div>
+
+      <div class="cheer-bottom">
+        <div class="heat-label">いまの熱さ</div>
+        <div id="heat-dots" class="heat-dots" aria-label="熱さ表示"></div>
+        <div class="cheer-note">おとなモードは右上を2秒長押し</div>
+      </div>
+
+      <div id="parent-hotspot" class="parent-hotspot" aria-label="おとなモード起動エリア"></div>
+    </section>
+
+    <div id="overlay" class="overlay" aria-hidden="true">
+      <div id="panel" class="panel" role="dialog" aria-modal="true" aria-label="おとなモード">
+        <div class="panel-header">
+          <div class="panel-title">おとなモード</div>
+          <button id="btn-close-panel" class="btn btn-small">とじる</button>
+        </div>
+
+        <div class="card">
+          <div class="row">
+            <div class="label">合計</div>
+            <div class="value" id="panel-total">0回</div>
+          </div>
+          <div class="row">
+            <div class="label">直近30秒</div>
+            <div class="value" id="panel-window">0回</div>
+          </div>
+          <div class="row">
+            <div class="label">熱さ</div>
+            <div class="value" id="panel-level">Lv0</div>
+          </div>
+          <div class="row">
+            <div class="label">接続</div>
+            <div class="value" id="panel-conn">未接続</div>
+          </div>
+        </div>
+
+        <div class="panel-actions">
+          <button id="btn-missions" class="btn btn-primary">ミッション</button>
+          <button id="btn-gacha" class="btn btn-primary">ガチャ</button>
+          <button id="btn-collection" class="btn btn-primary">コレクション</button>
+        </div>
+
+        <div class="card">
+          <div class="row">
+            <div class="label">しんどうテスト</div>
+            <div class="value"></div>
+          </div>
+          <div class="triple">
+            <button id="btn-vib-score" class="btn">点</button>
+            <button id="btn-vib-chance" class="btn">チャンス</button>
+            <button id="btn-vib-pinch" class="btn">ピンチ</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="row">
+            <div class="label">かんど</div>
+            <div class="value"><input id="sens-slider-2" type="range" min="0" max="100" value="50"></div>
+          </div>
+          <div class="row">
+            <div class="label">しんどう</div>
+            <div class="value"><input id="vib-slider-2" type="range" min="0" max="100" value="60"></div>
+          </div>
+        </div>
+
+        <div class="panel-actions">
+          <button id="btn-pause" class="btn">いったん止める</button>
+          <button id="btn-end" class="btn btn-accent">おわる</button>
+        </div>
+      </div>
+
+      <div id="sheet" class="sheet" role="dialog" aria-modal="true" aria-label="サブ画面">
+        <div class="sheet-header">
+          <div id="sheet-title" class="sheet-title"></div>
+          <button id="btn-close-sheet" class="btn btn-small">もどる</button>
+        </div>
+
+        <div id="sheet-body" class="sheet-body"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
