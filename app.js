@@ -2,8 +2,8 @@
   "use strict";
 
   const UUID_SERVICE = "12345678-1234-5678-1234-56789abcdef0";
-  const UUID_HIT = "12345678-1234-5678-1234-56789abcdef1";
-  const UUID_VIB = "12345678-1234-5678-1234-56789abcdef2";
+  const UUID_HIT = "12345678-1234-5678-1234-56789abcdef0";
+  const UUID_VIB = "12345678-1234-5678-1234-56789abcdef0";
 
   const HOLD_MS = 2000;
   const WINDOW_MS = 30000;
